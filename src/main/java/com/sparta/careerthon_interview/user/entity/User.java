@@ -1,12 +1,15 @@
 package com.sparta.careerthon_interview.user.entity;
 
+import com.sparta.careerthon_interview.user.dto.request.UserSignUpRequest;
 import com.sparta.careerthon_interview.user.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Entity
+@NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 public class User {
@@ -29,9 +32,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-//    public User(UserSignUp dto) {
-//        this.id = dto.;
-//        this.email = email;
-//        this.role = role;
-//    }
+    public User(UserSignUpRequest request, String password) {
+        this.username = request.getUsername();
+        this.password = password;
+        this.nickname = request.getNickname();
+        this.role = UserRole.ROLE_USER;
+    }
 }
