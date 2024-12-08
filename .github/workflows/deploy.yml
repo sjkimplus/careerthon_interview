@@ -72,5 +72,6 @@ jobs:
             -e DB_PORT=${{ secrets.DB_PORT }} \
             -e DB_USERNAME=${{ secrets.DB_USERNAME }} \
             -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+            -e JWT_KEY=${{ secrets.JWT_KEY }} \
             ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
           EOF
