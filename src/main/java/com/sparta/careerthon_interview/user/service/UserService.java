@@ -28,13 +28,14 @@ public class UserService {
     public UserSignUpResponse signup(UserSignUpRequest request) {
 
         // 빈 값이 없는지 확인
-        if (request.getUsername().isBlank() || request.getPassword().isBlank() || request.getNickname().isBlank()) {
+        if (isBlank(request.getUsername()) || isBlank(request.getPassword()) || isBlank(request.getNickname())) {
             throw new CareerthonException(MISSING_FORMAT);
         }
 
         // 중복 유저 확인
-        Optional<User> username = userRepository.findByUsername(request.getUsername());
-        if (username.isPresent()) throw new CareerthonException(USER_ID_DUPLICATION);
+        userRepository.findByUsername(request.getUsername())
+                .ifPresent(user -> { throw new CareerthonException(USER_ID_DUPLICATION); });
+
 
         // 비밀번호가 패턴에 부합하는지 확인
         String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
@@ -66,4 +67,9 @@ public class UserService {
         String token = jwtUtil.createToken(user.getId(), user.getUsername(), user.getRole());
         return new UserSignInResponse(token);
     }
+
+    private boolean isBlank(String value) {
+        return value == null || value.trim().isEmpty();
+    }
+
 }
