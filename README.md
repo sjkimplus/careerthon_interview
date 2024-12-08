@@ -6,7 +6,7 @@ Spring security와 JWT를 이용한 회원가입 및 로그인 기능 구현.
 ## Service Architecture
 <img src="./images/service_architecture.png" alt="service_architecture" width="800"/>
 
-## API Documentation (swagger UI link)
+## API Documentation ([Swagger UI Link 🔗](http://3.36.103.97:8080/swagger-ui/index.html))
 <img src="./images/api_docs.png" alt="api_docs" width="700"/>
 
 ## AI Feedback
