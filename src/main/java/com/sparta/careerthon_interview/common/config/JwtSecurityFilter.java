@@ -36,6 +36,11 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
         String authorizationHeader = httpRequest.getHeader("Authorization");
         String url = httpRequest.getRequestURI();
 
+        // Skip JWT authentication for Swagger and public API paths
+        if (url.startsWith("/v3/api-docs") || url.startsWith("/swagger-ui") || url.startsWith("/swagger-ui.html")) {
+            chain.doFilter(httpRequest, httpResponse);
+            return;
+        }
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ") && !url.startsWith("/users/sign-up") && !url.startsWith("/users/sign-in")) {
             String jwt = jwtUtil.substringToken(authorizationHeader);
             try {

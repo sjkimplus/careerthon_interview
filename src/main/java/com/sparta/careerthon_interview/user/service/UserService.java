@@ -66,9 +66,4 @@ public class UserService {
         String token = jwtUtil.createToken(user.getId(), user.getUsername(), user.getRole());
         return new UserSignInResponse(token);
     }
-
-//    // JWT 테스트용
-//    public String check() {
-//        return "all good";
-//    }
 }

@@ -42,7 +42,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser_success() throws Exception {
+    void signup_success() throws Exception {
         // Given
         UserSignUpRequest request = new UserSignUpRequest("username", "Password1!", "nickname");
         User user = new User(request, "encodedPassword");
@@ -59,7 +59,7 @@ class UserControllerTest {
     }
 
     @Test
-    void loginUser_success() throws Exception {
+    void signin_success() throws Exception {
         // Given
         UserSignInRequest request = new UserSignInRequest("username", "Password1!");
         UserSignInResponse response = new UserSignInResponse("jwtToken");
