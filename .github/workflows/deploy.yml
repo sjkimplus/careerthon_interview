@@ -5,12 +5,13 @@ on:
       - dev
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-${{ env.IMAGE_TAG }}
+    runs-on: ubuntu-latest
     env:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
       AWS_REGION: ap-northeast-2
       ECR_REPOSITORY: careerthon
-      IMAGE_TAG: ${{ env.IMAGE_TAG }}
+      IMAGE_TAG: latest
+      ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
 
     steps:
       - name: Checkout Code
@@ -49,15 +50,13 @@ jobs:
         run: ./gradlew build
 
       - name: Build and Push Docker Image
-        env:
-          ECR_REGISTRY: ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
         run: |
-          # Build the image with a tag format '${{ env.IMAGE_TAG }}'
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.IMAGE_TAG }} .
-          # Push the image with the tag '${{ env.IMAGE_TAG }}' to ECR
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.IMAGE_TAG }}
-          echo "image=${ECR_REGISTRY}/${ECR_REPOSITORY}:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
-
+          # Build the image with a tag format 'latest'
+          docker build -t ${{env.ECR_REGISTRY}}/${{env.ECR_REPOSITORY}}:${{env.IMAGE_TAG}} .
+          # Push the image with the tag 'latest' to ECR
+          docker push ${{env.ECR_REGISTRY}}/${{env.ECR_REPOSITORY}}:${{env.IMAGE_TAG}}
+          echo "image=${{env.ECR_REGISTRY}}/${{env.ECR_REPOSITORY}}:${{env.IMAGE_TAG}}" >> $GITHUB_OUTPUT
+          
       - name: Deploy Docker container to EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_PRIVATE_KEY }} ubuntu@${{ secrets.EC2_IP }} <<EOF
