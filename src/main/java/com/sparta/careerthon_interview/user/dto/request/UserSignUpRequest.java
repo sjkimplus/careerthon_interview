@@ -3,9 +3,11 @@ package com.sparta.careerthon_interview.user.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserSignUpRequest {
     @Schema(description = "사용자 아이디 (자유양식, 단 다른 유저와 중복불가)", example = "BailyK99")
     private String username;
