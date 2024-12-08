@@ -39,7 +39,11 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/sign-up", "/users/sign-in").permitAll()
+                        .requestMatchers(
+                                "/users/sign-up",
+                                "/users/sign-in",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .build();
