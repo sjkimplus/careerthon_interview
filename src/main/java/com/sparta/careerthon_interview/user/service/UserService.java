@@ -53,6 +53,11 @@ public class UserService {
 
     @Transactional
     public UserSignInResponse signin(UserSignInRequest request) {
+        // 빈 값이 없는지 확인
+        if (isBlank(request.getUsername()) || isBlank(request.getPassword())) {
+            throw new CareerthonException(MISSING_FORMAT);
+        }
+
         String username = request.getUsername();
         String password = request.getPassword();
 
